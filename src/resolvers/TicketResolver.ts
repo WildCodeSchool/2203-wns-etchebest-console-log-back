@@ -1,14 +1,23 @@
-import { Resolver, Query } from 'type-graphql';
+import { Resolver, Query, Mutation, Args } from 'type-graphql';
 import TicketModel from '../models/Ticket';
 import Ticket from '../entities/Ticket';
-
+import GetTicketsArgs from '../entities/TicketArgs';
 
 @Resolver()
 class TicketResolver {
-
   @Query(() => [Ticket])
   async getAllTickets() {
     const result = await TicketModel.find();
+    return result;
+  }
+
+  @Mutation(() => Ticket)
+  async createTicket(@Args() args: GetTicketsArgs): Promise<Ticket> {
+    const ticket = new TicketModel({
+              title: args.title,
+              description: args.description,
+            });
+    const result = await ticket.save();
     return result;
   }
 }

@@ -10,6 +10,9 @@ class Ticket {
   @Field()
   description: string = '';
 }
+
+
+
 export default Ticket;
 
 // A schema is a collection of type definitions (hence "typeDefs")

@@ -3,6 +3,10 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type Mutation {
+  createTicket(description: String, title: String): Ticket!
+}
+
 type Query {
   getAllTickets: [Ticket!]!
 }
