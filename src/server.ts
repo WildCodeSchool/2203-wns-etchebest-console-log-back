@@ -1,33 +1,24 @@
-import express from 'express';
-import mongoose from 'mongoose';
-import cors from 'cors';
+// import mongoose from 'mongoose';
+import 'reflect-metadata';
+import typeDefs from './entities/types';
+import resolvers from './resolvers/resolvers';
+// import wilderController from './controllers/wilder';
 
-import wilderController from './controllers/wilder';
-
-const app = express();
+const { ApolloServer } = require('apollo-server');
 
 // Database
-mongoose
-  .connect('mongodb://127.0.0.1:27017/wilderdb', {
-    autoIndex: true,
-  })
-  .then(() => console.log('Connected to database')) // eslint-disable-line no-console
-  .catch((err) => console.log(err)); // eslint-disable-line no-console
+// mongoose
+//   .connect('mongodb://127.0.0.1:27017/wilderdb', {
+//     autoIndex: true,
+//   })
+//   .then(() => console.log('Connected to database')) // eslint-disable-line no-console
+//   .catch((err) => console.log(err)); // eslint-disable-line no-console
 
-// Middleware
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-app.use(cors());
 
-// Routes
-app.get('/', (req, res) => {
-  res.send('Hello World');
+
+const server = new ApolloServer({ typeDefs, resolvers });
+
+// The `listen` method launches a web server.
+server.listen().then(({ url } : {url:any}) => {
+  console.log(`🚀  Server ready at ${url}`);
 });
-
-app.post('/api/wilders', wilderController.create);
-app.get('/api/wilders', wilderController.read);
-app.put('/api/wilders', wilderController.update);
-app.delete('/api/wilders', wilderController.delete);
-
-// Start Server
-app.listen(5000, () => console.log('Server started on 5000')); // eslint-disable-line no-console
