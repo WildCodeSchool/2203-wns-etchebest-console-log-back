@@ -1,7 +1,9 @@
 import mongoose from 'mongoose';
 import 'reflect-metadata';
-import typeDefs from './entities/types';
-import resolvers from './resolvers/resolvers';
+import { buildSchema } from 'type-graphql';
+// import Ticket from './entities/Ticket';
+import TicketResolver from './resolvers/TicketResolver';
+
 // import wilderController from './controllers/wilder';
 
 const { ApolloServer } = require('apollo-server');
@@ -15,9 +17,19 @@ mongoose
   .catch((err) => console.log(err)); // eslint-disable-line no-console
 
 
-const server = new ApolloServer({ typeDefs, resolvers });
+const bootstrap = async () => {
+  const schema = await buildSchema ({
+    resolvers: [TicketResolver],
+    emitSchemaFile: true,
+  });
 
-// The `listen` method launches a web server.
-server.listen().then(({ url } : {url:any}) => {
-  console.log(`🚀  Server ready at ${url}`);
-});
+  const server = new ApolloServer({ schema });
+
+  // The `listen` method launches a web server.
+  server.listen().then(({ url } : {url:any}) => {
+    console.log(`🚀  Server ready at ${url}`);
+  });
+
+};
+
+bootstrap();

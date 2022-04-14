@@ -5,10 +5,10 @@ import { ObjectType, Field } from 'type-graphql';
 @ObjectType()
 class Ticket {
   @Field()
-  title: string;
-  
+  title: string = '';
+
   @Field()
-  description: string;
+  description: string = '';
 }
 export default Ticket;
 
