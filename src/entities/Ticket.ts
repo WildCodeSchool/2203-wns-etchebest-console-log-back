@@ -1,19 +1,25 @@
-import { ObjectType, Field } from 'type-graphql';
-
-// const { gql } = require('apollo-server');
+import { ObjectType, Field, InputType } from 'type-graphql';
+/* eslint max-classes-per-file: ["error", 2] */
 
 @ObjectType()
 class Ticket {
   @Field()
-  title: string = '';
+  title: string='';
 
   @Field()
-  description: string = '';
+  description?: string;
 }
 
+@InputType({ description: "New recipe data" })
+class NewTicketInput implements Partial<Ticket> {
+  @Field()
+  title: string=''
 
+  @Field({ nullable: true })
+  description?: string;
+}
 
-export default Ticket;
+export {Ticket, NewTicketInput};
 
 // A schema is a collection of type definitions (hence "typeDefs")
 // that together define the "shape" of queries that are executed against

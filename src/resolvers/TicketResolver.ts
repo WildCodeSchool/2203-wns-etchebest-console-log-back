@@ -1,7 +1,7 @@
-import { Resolver, Query, Mutation, Args } from 'type-graphql';
+import { Resolver, Query, Mutation, Arg } from 'type-graphql';
 import TicketModel from '../models/Ticket';
-import Ticket from '../entities/Ticket';
-import GetTicketsArgs from '../entities/TicketArgs';
+import {Ticket, NewTicketInput } from '../entities/Ticket';
+// import GetTicketsArgs from '../entities/TicketArgs';
 
 @Resolver()
 class TicketResolver {
@@ -12,7 +12,7 @@ class TicketResolver {
   }
 
   @Mutation(() => Ticket)
-  async createTicket(@Args() args: GetTicketsArgs): Promise<Ticket> {
+  async createTicket(@Arg("newTicketInput") args: NewTicketInput): Promise<Ticket> {
     const ticket = new TicketModel({
               title: args.title,
               description: args.description,
@@ -20,6 +20,8 @@ class TicketResolver {
     const result = await ticket.save();
     return result;
   }
+
+
 }
 
 export default TicketResolver;

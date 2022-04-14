@@ -16,20 +16,18 @@ mongoose
   .then(() => console.log('Connected to database')) // eslint-disable-line no-console
   .catch((err) => console.log(err)); // eslint-disable-line no-console
 
-
 const bootstrap = async () => {
-  const schema = await buildSchema ({
+  const schema = await buildSchema({
     resolvers: [TicketResolver],
-    emitSchemaFile: true,
+    // emitSchemaFile: true,
   });
 
   const server = new ApolloServer({ schema });
 
   // The `listen` method launches a web server.
-  server.listen().then(({ url } : {url:any}) => {
+  server.listen().then(({ url }: { url: any }) => {
     console.log(`🚀  Server ready at ${url}`);
   });
-
 };
 
 bootstrap();
