@@ -1,4 +1,4 @@
-// import mongoose from 'mongoose';
+import mongoose from 'mongoose';
 import 'reflect-metadata';
 import typeDefs from './entities/types';
 import resolvers from './resolvers/resolvers';
@@ -7,13 +7,12 @@ import resolvers from './resolvers/resolvers';
 const { ApolloServer } = require('apollo-server');
 
 // Database
-// mongoose
-//   .connect('mongodb://127.0.0.1:27017/wilderdb', {
-//     autoIndex: true,
-//   })
-//   .then(() => console.log('Connected to database')) // eslint-disable-line no-console
-//   .catch((err) => console.log(err)); // eslint-disable-line no-console
-
+mongoose
+  .connect('mongodb://127.0.0.1:27017/console-log-db', {
+    autoIndex: true,
+  })
+  .then(() => console.log('Connected to database')) // eslint-disable-line no-console
+  .catch((err) => console.log(err)); // eslint-disable-line no-console
 
 
 const server = new ApolloServer({ typeDefs, resolvers });

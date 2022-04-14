@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import WilderModel from '../models/Wilder';
+import WilderModel from '../models/Ticket';
 
 const wilderController = {
   create: async (req: Request, res: Response): Promise<void> => {
