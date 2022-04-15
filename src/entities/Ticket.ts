@@ -1,8 +1,11 @@
-import { ObjectType, Field, InputType } from 'type-graphql';
+import { ObjectType, Field, InputType, ID,  } from 'type-graphql';
 /* eslint max-classes-per-file: ["error", 2] */
 
 @ObjectType()
 class Ticket {
+  @Field(() => ID)
+  readonly _id: string | undefined;
+
   @Field()
   title: string='';
 
