@@ -10,12 +10,12 @@ class Ticket {
   description?: string;
 }
 
-@InputType({ description: "New recipe data" })
+@InputType({ description: "New ticket data" })
 class NewTicketInput implements Partial<Ticket> {
   @Field()
   title: string=''
 
-  @Field({ nullable: true })
+  @Field()
   description?: string;
 }
 
