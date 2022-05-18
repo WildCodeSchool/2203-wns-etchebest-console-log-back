@@ -1,6 +1,5 @@
 import { Resolver, Query, Mutation, Arg } from 'type-graphql';
-import TicketModel from '../models/Ticket';
-import { Ticket, NewTicketInput } from '../entities/Ticket';
+import { Ticket, NewTicketInput, TicketModel } from '../entities/Ticket';
 
 @Resolver()
 class TicketResolver {
