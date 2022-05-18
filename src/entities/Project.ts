@@ -25,16 +25,16 @@ class Project {
 @InputType({ description: 'New project data' })
 class NewProjectInput implements Partial<Project> {
   @Field()
-  name?: string;
+  name: string;
 
   @Field()
-  limitDate?: Date;
+  limitDate: Date;
 
   @Field()
-  status?: string;
+  status: string;
 
   @Field()
-  manager?: string;
+  manager: string;
 }
 
 export { Project, NewProjectInput };
