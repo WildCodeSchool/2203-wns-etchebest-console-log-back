@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@typegoose/typegoose": "^9.8.1",
     "apollo-server": "^3.6.7",
     "class-validator": "^0.13.2",
     "cors": "^2.8.5",
