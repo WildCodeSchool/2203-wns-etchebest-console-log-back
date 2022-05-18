@@ -22,6 +22,12 @@ class Project {
   manager: string;
 }
 
+@InputType({ description: 'Find projet by id' })
+class ProjectIdInput implements Partial<Project> {
+  @Field()
+  _id: string;
+}
+
 @InputType({ description: 'New project data' })
 class NewProjectInput implements Partial<Project> {
   @Field()
@@ -37,4 +43,22 @@ class NewProjectInput implements Partial<Project> {
   manager: string;
 }
 
-export { Project, NewProjectInput };
+@InputType({ description: 'Update project data' })
+class UpdateProjectInput implements Partial<Project> {
+  @Field()
+  _id: string;
+
+  @Field()
+  name?: string;
+
+  @Field()
+  limitDate?: Date;
+
+  @Field()
+  status?: string;
+
+  @Field()
+  manager?: string;
+}
+
+export { Project, NewProjectInput, ProjectIdInput, UpdateProjectInput };
