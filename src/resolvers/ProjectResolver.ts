@@ -26,6 +26,9 @@ class ProjectResolver {
   async createProject(
     @Arg('newProjectInput') args: NewProjectInput
   ): Promise<Project> {
+    if (!args.limitDate && !args.manager && !args.name && !args.status)
+      throw new ApolloError('Il manque les infos');
+
     const project = new ProjectModel({
       name: args.name,
       creationDate: Date.now(),
@@ -41,8 +44,10 @@ class ProjectResolver {
   async updateProject(
     @Arg('updateProjectInput') args: UpdateProjectInput
   ): Promise<Project> {
+    if (!args.limitDate && !args.manager && !args.name && !args.status)
+      throw new ApolloError('Il manque les infos');
     const isProjectExist = await ProjectModel.findById({ _id: args._id });
-    if (!isProjectExist) throw new Error("Le projet n'existe pas");
+    if (!isProjectExist) throw new ApolloError("Le projet n'existe pas");
 
     const result = await ProjectModel.findOneAndUpdate(
       { _id: args._id },
@@ -60,7 +65,7 @@ class ProjectResolver {
   @Mutation(() => Project)
   async deleteProject(@Arg('id') args: ProjectIdInput): Promise<Project> {
     const isProjectExist = await ProjectModel.findById({ _id: args._id });
-    if (!isProjectExist) throw new Error("Le projet n'existe pas");
+    if (!isProjectExist) throw new ApolloError("Le projet n'existe pas");
     const result = await ProjectModel.findByIdAndDelete({ _id: args._id });
     return result;
   }
