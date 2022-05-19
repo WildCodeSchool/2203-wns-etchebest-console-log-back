@@ -11,11 +11,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@typegoose/typegoose": "^9.8.1",
     "apollo-server": "^3.6.7",
     "class-validator": "^0.13.2",
     "cors": "^2.8.5",
     "eslint-plugin-prettier": "^3.4.1",
     "graphql": "15.3",
+    "mongodb": "^4.6.0",
     "mongoose": "^6.0.0",
     "reflect-metadata": "^0.1.13",
     "type-graphql": "^1.1.1"
