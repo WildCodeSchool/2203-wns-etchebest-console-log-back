@@ -2,7 +2,6 @@ import { ObjectType, Field, InputType, ID } from 'type-graphql';
 import {
   getModelForClass,
   prop as Property,
-  Ref,
   modelOptions,
   Severity,
 } from '@typegoose/typegoose';
@@ -11,10 +10,10 @@ import { ObjectId } from 'mongodb';
 import { Ticket } from './Ticket';
 
 /* eslint max-classes-per-file: ["error", 10] */
-@modelOptions({ options: { allowMixed: Severity.ALLOW } }) // Permet de récupérer le type Ticket dans la class Project
+@modelOptions({ options: { allowMixed: Severity.ALLOW } }) // Permet de récupérer le type Ticket dans la classe Project
 @ObjectType()
 class Project {
-  @Field(() => ID)
+  @Field(() => ID!)
   _id?: ObjectId;
 
   @Property()
