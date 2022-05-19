@@ -48,16 +48,16 @@ class UpdateProjectInput implements Partial<Project> {
   @Field()
   _id: string;
 
-  @Field()
+  @Field({ nullable: true })
   name?: string;
 
-  @Field()
+  @Field({ nullable: true })
   limitDate?: Date;
 
-  @Field()
+  @Field({ nullable: true })
   status?: string;
 
-  @Field()
+  @Field({ nullable: true })
   manager?: string;
 }
 

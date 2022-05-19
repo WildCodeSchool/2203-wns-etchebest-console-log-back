@@ -39,9 +39,9 @@ class ProjectResolver {
 
   @Mutation(() => Project)
   async updateProject(
-    @Arg('updateProjectInput', { nullable: true }) args: UpdateProjectInput
+    @Arg('updateProjectInput') args: UpdateProjectInput
   ): Promise<Project> {
-    const isProjectExist = ProjectModel.findById({ _id: args._id });
+    const isProjectExist = await ProjectModel.findById({ _id: args._id });
     if (!isProjectExist) throw new Error("Le projet n'existe pas");
 
     const result = await ProjectModel.findOneAndUpdate(
@@ -51,8 +51,17 @@ class ProjectResolver {
         limitDate: args.limitDate,
         manager: args.manager,
         status: args.status,
-      }
+      },
+      { new: true }
     );
+    return result;
+  }
+
+  @Mutation(() => Project)
+  async deleteProject(@Arg('id') args: ProjectIdInput): Promise<Project> {
+    const isProjectExist = await ProjectModel.findById({ _id: args._id });
+    if (!isProjectExist) throw new Error("Le projet n'existe pas");
+    const result = await ProjectModel.findByIdAndDelete({ _id: args._id });
     return result;
   }
 }
