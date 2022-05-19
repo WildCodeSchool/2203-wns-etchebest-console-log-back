@@ -1,39 +1,67 @@
-import { ObjectType, Field, InputType, ID } from 'type-graphql';
+import {
+  ObjectType,
+  Field,
+  InputType,
+  ID,
+  registerEnumType,
+} from 'type-graphql';
 import { getModelForClass, prop as Property } from '@typegoose/typegoose';
-import { ObjectId } from 'mongodb';
-import { Length, MaxLength } from 'class-validator';
+import { Length } from 'class-validator';
 /* eslint max-classes-per-file: ["error", 2] */
+
+enum TicketStatus {
+  ToDo = 'TODO',
+  Doing = 'DOING',
+  Done = 'DONE',
+}
+registerEnumType(TicketStatus, {
+  name: 'TicketStatus', // this one is mandatory
+  description: 'the allowed statuses for a ticket', // this one is optional
+});
 
 @ObjectType()
 export class Ticket {
-  @Field(() => ID!, { nullable: true, name: 'id' })
-  _id?: ObjectId;
-
+  @Field(() => ID!)
+  readonly _id: string;
 
   @Property()
   @Field()
-  @MaxLength(30)
-  title: string;
-
+  @Length(1, 40)
+  title!: string;
 
   @Property()
   @Field()
   @Length(0, 255)
-  description?: string='';
-
+  description?: string;
 
   @Property()
-  @Field({nullable: true})
+  @Field({ description: 'date of creation of the ticket' })
+  creationDate?: string;
+
+  @Property()
+  @Field(() => TicketStatus)
+  status?: TicketStatus;
+
+  @Property()
+  @Field()
   assignee?: string;
 
 }
- export const TicketModel = getModelForClass(Ticket);
+export const TicketModel = getModelForClass(Ticket);
 
 @InputType({ description: 'New ticket data' })
 export class NewTicketInput implements Partial<Ticket> {
-  @Field({nullable: true})
-  title?: string;
+  @Field()
+  @Length(1, 40)
+  title!: string;
 
-  @Field({nullable: true})
-  description?: string;
+  @Field()
+  @Length(0, 255)
+  description?: string = '';
+
+  @Field(() => TicketStatus)
+  status?: TicketStatus = TicketStatus.ToDo;
+
+  @Field()
+  assignee: string = '';
 }

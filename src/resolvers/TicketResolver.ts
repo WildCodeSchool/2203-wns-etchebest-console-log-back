@@ -4,18 +4,19 @@ import { Ticket, NewTicketInput, TicketModel } from '../entities/Ticket';
 @Resolver()
 class TicketResolver {
   @Query(() => [Ticket])
-  async getAllTickets() {
+  async getAllTickets(): Promise<Ticket[]> {
     const result = await TicketModel.find();
     return result;
   }
 
   @Mutation(() => Ticket)
   async createTicket(
-    @Arg('newTicketInput') args: NewTicketInput
+    @Arg('newTicketInput') newTicketInput: NewTicketInput
   ): Promise<Ticket> {
-    const ticket = new TicketModel({
-      title: args.title,
-      description: args.description,
+    const date = new Date().toISOString();
+    const ticket = await new TicketModel({
+      ...newTicketInput,
+      creationDate: date,
     });
     const result = await ticket.save();
     return result;
