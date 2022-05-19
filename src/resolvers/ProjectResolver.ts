@@ -4,8 +4,8 @@ import {
   Project,
   NewProjectInput,
   UpdateProjectInput,
-  ProjectIdInput,
-  ProjectModel
+  ProjectId,
+  ProjectModel,
 } from '../entities/Project';
 
 @Resolver()
@@ -17,8 +17,9 @@ class ProjectResolver {
   }
 
   @Query(() => Project)
-  async getOneProject(@Arg('id') args: ProjectIdInput): Promise<Project> {
+  async getOneProject(@Arg('id') args: ProjectId): Promise<Project | null> {
     const result = await ProjectModel.findById({ _id: args._id });
+    if (!result) throw new ApolloError("Ce projet n'existe pas");
     return result;
   }
 
@@ -27,7 +28,7 @@ class ProjectResolver {
     @Arg('newProjectInput') args: NewProjectInput
   ): Promise<Project> {
     if (!args.limitDate && !args.manager && !args.name && !args.status)
-      throw new ApolloError('Il manque les infos');
+      throw new ApolloError('Il manque des infos');
 
     const project = new ProjectModel({
       name: args.name,
@@ -43,14 +44,14 @@ class ProjectResolver {
   @Mutation(() => Project)
   async updateProject(
     @Arg('updateProjectInput') args: UpdateProjectInput
-  ): Promise<Project> {
+  ): Promise<Project | null> {
     if (!args.limitDate && !args.manager && !args.name && !args.status)
       throw new ApolloError('Il manque les infos');
     const isProjectExist = await ProjectModel.findById({ _id: args._id });
     if (!isProjectExist) throw new ApolloError("Le projet n'existe pas");
 
     const result = await ProjectModel.findOneAndUpdate(
-      { _id: args._id },
+      { id: args._id },
       {
         name: args.name,
         limitDate: args.limitDate,
@@ -63,7 +64,7 @@ class ProjectResolver {
   }
 
   @Mutation(() => Project)
-  async deleteProject(@Arg('id') args: ProjectIdInput): Promise<Project> {
+  async deleteProject(@Arg('id') args: ProjectId): Promise<Project | null> {
     const isProjectExist = await ProjectModel.findById({ _id: args._id });
     if (!isProjectExist) throw new ApolloError("Le projet n'existe pas");
     const result = await ProjectModel.findByIdAndDelete({ _id: args._id });
