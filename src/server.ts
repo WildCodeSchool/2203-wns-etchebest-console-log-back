@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import 'reflect-metadata';
 import { buildSchema } from 'type-graphql';
+import ProjectResolver from './resolvers/ProjectResolver';
 import TicketResolver from './resolvers/TicketResolver';
 
 const { ApolloServer } = require('apollo-server');
@@ -14,7 +15,7 @@ mongoose
 
 const initialize = async () => {
   const schema = await buildSchema({
-    resolvers: [TicketResolver],
+    resolvers: [TicketResolver, ProjectResolver],
   });
 
   const server = new ApolloServer({ schema });
