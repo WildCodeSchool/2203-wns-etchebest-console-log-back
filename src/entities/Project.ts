@@ -1,26 +1,35 @@
 import { ObjectType, Field, InputType, ID } from 'type-graphql';
-/* eslint max-classes-per-file: ["error", 2] */
+import { getModelForClass, prop as Property } from '@typegoose/typegoose';
+
+/* eslint max-classes-per-file: ["error", 10] */
 
 @ObjectType()
 class Project {
   @Field(() => ID)
   readonly _id: string | undefined;
 
+  @Property()
   @Field()
   name: string;
 
+  @Property()
   @Field()
   creationDate: Date;
 
+  @Property()
   @Field()
   limitDate: Date;
 
+  @Property()
   @Field()
   status: string;
 
+  @Property()
   @Field()
   manager: string;
 }
+
+export const ProjectModel = getModelForClass(Project);
 
 @InputType({ description: 'Find projet by id' })
 class ProjectIdInput implements Partial<Project> {

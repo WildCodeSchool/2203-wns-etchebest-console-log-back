@@ -1,12 +1,12 @@
 import { Resolver, Query, Mutation, Arg } from 'type-graphql';
-import ProjectModel from '../models/Project';
+import { ApolloError } from 'apollo-server';
 import {
   Project,
   NewProjectInput,
   UpdateProjectInput,
   ProjectIdInput,
+  ProjectModel
 } from '../entities/Project';
-import { ApolloError } from 'apollo-server';
 
 @Resolver()
 class ProjectResolver {
