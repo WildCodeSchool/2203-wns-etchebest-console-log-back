@@ -1,25 +1,30 @@
 import { ObjectType, Field, InputType, ID } from 'type-graphql';
+import { getModelForClass, prop as Property } from '@typegoose/typegoose';
+import { ObjectId } from 'mongodb';
 /* eslint max-classes-per-file: ["error", 2] */
 
 @ObjectType()
-class Ticket {
-  @Field(() => ID)
-  readonly _id: string | undefined;
+export class Ticket {
+  @Field(() => ID!, { nullable: true, name: 'id' })
+  _id?: ObjectId;
 
-  @Field()
-  title: string = '';
 
-  @Field()
+  @Property()
+  @Field({nullable: true})
+  title?: string;
+
+
+  @Property()
+  @Field({nullable: true})
   description?: string;
 }
+ export const TicketModel = getModelForClass(Ticket);
 
 @InputType({ description: 'New ticket data' })
-class NewTicketInput implements Partial<Ticket> {
-  @Field()
-  title: string = '';
+export class NewTicketInput implements Partial<Ticket> {
+  @Field({nullable: true})
+  title?: string;
 
-  @Field()
+  @Field({nullable: true})
   description?: string;
 }
-
-export { Ticket, NewTicketInput };
