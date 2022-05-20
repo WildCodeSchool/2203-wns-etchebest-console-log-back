@@ -25,18 +25,17 @@ export class Ticket {
   readonly _id: string;
 
   @Property()
+  @Field({ description: 'date of creation of the ticket' })
+  readonly creationDate?: string;
+
+  @Property()
   @Field()
-  @Length(1, 40)
   title!: string;
 
   @Property()
   @Field()
-  @Length(0, 255)
   description?: string;
 
-  @Property()
-  @Field({ description: 'date of creation of the ticket' })
-  creationDate?: string;
 
   @Property()
   @Field(() => TicketStatus)
