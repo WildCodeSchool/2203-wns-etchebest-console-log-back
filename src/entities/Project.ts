@@ -1,31 +1,53 @@
 import { ObjectType, Field, InputType, ID } from 'type-graphql';
-/* eslint max-classes-per-file: ["error", 2] */
+import {
+  getModelForClass,
+  prop as Property,
+  modelOptions,
+  Severity,
+} from '@typegoose/typegoose';
+import { MaxLength } from 'class-validator';
+import { ObjectId } from 'mongodb';
+import { Ticket } from './Ticket';
 
+/* eslint max-classes-per-file: ["error", 10] */
+@modelOptions({ options: { allowMixed: Severity.ALLOW } }) // Permet de récupérer le type Ticket dans la classe Project
 @ObjectType()
 class Project {
-  @Field(() => ID)
-  readonly _id: string | undefined;
+  @Field(() => ID!)
+  _id?: ObjectId;
 
-  @Field()
+  @Property()
+  @Field(() => String)
+  @MaxLength(50)
   name: string;
 
-  @Field()
+  @Property()
+  @Field(() => Date)
   creationDate: Date;
 
-  @Field()
+  @Property()
+  @Field(() => Date)
   limitDate: Date;
 
-  @Field()
+  @Property()
+  @Field(() => String)
   status: string;
 
-  @Field()
+  @Property()
+  @Field(() => String)
   manager: string;
+
+  @Property()
+  @Field(() => [Ticket])
+  tickets?: Ticket[];
 }
 
-@InputType({ description: 'Find projet by id' })
-class ProjectIdInput implements Partial<Project> {
-  @Field()
-  _id: string;
+export const ProjectModel = getModelForClass(Project);
+
+@InputType()
+class ProjectId implements Partial<Project> {
+  @Field(() => ID!)
+  _id: ObjectId;
 }
 
 @InputType({ description: 'New project data' })
@@ -45,8 +67,8 @@ class NewProjectInput implements Partial<Project> {
 
 @InputType({ description: 'Update project data' })
 class UpdateProjectInput implements Partial<Project> {
-  @Field()
-  _id: string;
+  @Field(() => ID!)
+  _id: ObjectId;
 
   @Field({ nullable: true })
   name?: string;
@@ -61,4 +83,4 @@ class UpdateProjectInput implements Partial<Project> {
   manager?: string;
 }
 
-export { Project, NewProjectInput, ProjectIdInput, UpdateProjectInput };
+export { Project, NewProjectInput, ProjectId, UpdateProjectInput };
