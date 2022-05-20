@@ -66,8 +66,8 @@ export class NewTicketInput implements Partial<Ticket> {
   assignee: string = '';
 }
 
-@InputType({ description: 'Get ticket data' })
-export class GetTicketInput implements Partial<Ticket> {
+@InputType()
+export class TicketId implements Partial<Ticket> {
   @Field(() => ID!)
   readonly _id: ObjectId;
 }
