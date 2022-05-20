@@ -66,8 +66,30 @@ export class NewTicketInput implements Partial<Ticket> {
   assignee: string = '';
 }
 
-@InputType({ description: 'New ticket data' })
+@InputType({ description: 'Get ticket data' })
 export class GetTicketInput implements Partial<Ticket> {
   @Field(() => ID!)
   readonly _id: ObjectId;
+}
+
+
+@InputType({ description: 'Update ticket data' })
+export class UpdateTicketInput implements Partial<Ticket> {
+  @Field(() => ID!)
+  readonly _id: ObjectId;
+
+  @Field()
+  @Length(1, 40)
+  title!: string;
+
+  @Field()
+  @Length(0, 255)
+  description?: string = '';
+
+  @Field(() => TicketStatus)
+  status?: TicketStatus = TicketStatus.ToDo;
+
+  @Field()
+  assignee: string = '';
+
 }
