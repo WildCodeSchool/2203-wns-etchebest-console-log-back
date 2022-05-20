@@ -7,7 +7,8 @@ import {
 } from 'type-graphql';
 import { getModelForClass, prop as Property } from '@typegoose/typegoose';
 import { Length } from 'class-validator';
-/* eslint max-classes-per-file: ["error", 2] */
+import { ObjectId } from 'mongodb';
+/* eslint max-classes-per-file: ["error", 10] */
 
 enum TicketStatus {
   ToDo = 'TODO',
@@ -22,7 +23,7 @@ registerEnumType(TicketStatus, {
 @ObjectType()
 export class Ticket {
   @Field(() => ID!)
-  readonly _id: string;
+  readonly _id: ObjectId;
 
   @Property()
   @Field({ description: 'date of creation of the ticket' })
@@ -63,4 +64,10 @@ export class NewTicketInput implements Partial<Ticket> {
 
   @Field()
   assignee: string = '';
+}
+
+@InputType({ description: 'New ticket data' })
+export class GetTicketInput implements Partial<Ticket> {
+  @Field(() => ID!)
+  readonly _id: ObjectId;
 }
