@@ -22,15 +22,17 @@ npm start
 yarn start
 ```
 
-To run the server locally, run: 
-
+To run the server locally, follow these steps: 
+Make sure you shut down mongod's instance beforehand with `brew services stop mongodb-community@5.0` (on MacOS+Homebrew).
+Start mongod (configured for replication) with the command below :
 ```bash
 mongod --port 27017 --dbpath /path/to/mongodb --replSet rs0 --bind_ip localhost,CustomHostName
 
 #on MacOS (Homebrew)
-mongod --port 27017 --dbpath /opt/homebrew/var/mongodb/ --replSet rs0 --bind_ip localhost,HomeHost ```
+mongod --port 27017 --dbpath /opt/homebrew/var/mongodb/ --replSet rs0 --bind_ip localhost,HomeHost
+```
 
- While running, open a new terminal & run `mongosh` :
+While mongod is running, open a new terminal & run `mongosh`, then :
 ```bash
 rs.initiate({_id: 'rs0', members: [{_id: 0, host: 'localhost:27017'}]});
 ```
