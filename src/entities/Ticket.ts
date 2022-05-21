@@ -1,39 +1,95 @@
-import { ObjectType, Field, InputType, ID } from 'type-graphql';
+import {
+  ObjectType,
+  Field,
+  InputType,
+  ID,
+  registerEnumType,
+} from 'type-graphql';
 import { getModelForClass, prop as Property } from '@typegoose/typegoose';
+import { Length } from 'class-validator';
 import { ObjectId } from 'mongodb';
-import { Length, MaxLength } from 'class-validator';
-/* eslint max-classes-per-file: ["error", 2] */
+/* eslint max-classes-per-file: ["error", 10] */
+
+enum TicketStatus {
+  ToDo = 'TODO',
+  Doing = 'DOING',
+  Done = 'DONE',
+}
+registerEnumType(TicketStatus, {
+  name: 'TicketStatus', // this one is mandatory
+  description: 'the allowed statuses for a ticket', // this one is optional
+});
 
 @ObjectType()
 export class Ticket {
-  @Field(() => ID!, { nullable: true, name: 'id' })
-  _id?: ObjectId;
+  @Field(() => ID!)
+  readonly _id: ObjectId;
 
+  @Property()
+  @Field({ description: 'date of creation of the ticket' })
+  readonly creationDate?: string;
 
   @Property()
   @Field()
-  @MaxLength(30)
-  title: string;
-
+  title!: string;
 
   @Property()
   @Field()
-  @Length(0, 255)
-  description?: string='';
+  description?: string;
 
 
   @Property()
-  @Field({nullable: true})
+  @Field(() => TicketStatus)
+  status?: TicketStatus;
+
+  @Property()
+  @Field()
   assignee?: string;
 
 }
- export const TicketModel = getModelForClass(Ticket);
+export const TicketModel = getModelForClass(Ticket);
 
 @InputType({ description: 'New ticket data' })
 export class NewTicketInput implements Partial<Ticket> {
-  @Field({nullable: true})
-  title?: string;
+  @Field()
+  @Length(1, 40)
+  title!: string;
 
-  @Field({nullable: true})
-  description?: string;
+  @Field()
+  @Length(0, 255)
+  description?: string = '';
+
+  @Field(() => TicketStatus)
+  status?: TicketStatus = TicketStatus.ToDo;
+
+  @Field()
+  assignee: string = '';
+}
+
+@InputType()
+export class TicketId implements Partial<Ticket> {
+  @Field(() => ID!)
+  readonly _id: ObjectId;
+}
+
+
+@InputType({ description: 'Update ticket data' })
+export class UpdateTicketInput implements Partial<Ticket> {
+  @Field(() => ID!)
+  readonly _id: ObjectId;
+
+  @Field()
+  @Length(1, 40)
+  title!: string;
+
+  @Field()
+  @Length(0, 255)
+  description?: string = '';
+
+  @Field(() => TicketStatus)
+  status?: TicketStatus = TicketStatus.ToDo;
+
+  @Field()
+  assignee: string = '';
+
 }
