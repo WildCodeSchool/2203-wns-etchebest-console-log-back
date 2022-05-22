@@ -36,5 +36,6 @@ jobs:
           eslint: true
           eslint_args: "--max-warnings 0"
           eslint_dir: src/
-          eslint_extensions: js,ts
+          eslint_extensions: js,ts,jsx,tsx
           prettier: true
+          prettier_extensions: js,ts,jsx,tsx,json
