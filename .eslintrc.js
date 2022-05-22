@@ -12,6 +12,10 @@ module.exports = {
     tsconfigRootDir: './',
   },
   plugins: ['@typescript-eslint', 'prettier'],
-  rules: { 'no-underscore-dangle': ['error', { allow: ['_id'] }] , 'class-methods-use-this': 'off'},
+  rules: {
+    'no-underscore-dangle': ['error', { allow: ['_id'] }],
+    'class-methods-use-this': 'off',
+    'prettier/prettier': 'error',
+  },
   ignorePatterns: ['.eslintrc.js'],
 };
