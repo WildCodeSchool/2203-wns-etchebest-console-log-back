@@ -8,14 +8,13 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 12,
     sourceType: 'module',
-    project: './tsconfig.json',
-    tsconfigRootDir: './',
+    project: 'tsconfig.json',
+    tsconfigRootDir: __dirname,
   },
   plugins: ['@typescript-eslint', 'prettier'],
   rules: {
     'no-underscore-dangle': ['error', { allow: ['_id'] }],
     'class-methods-use-this': 'off',
-    'prettier/prettier': 'error',
   },
   ignorePatterns: ['.eslintrc.js'],
 };
