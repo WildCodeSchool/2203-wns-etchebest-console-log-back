@@ -14,7 +14,6 @@ generator typegraphql {
   provider = "typegraphql-prisma"
 }
 
-
 enum TicketStatus {
   TODO
   DOING
@@ -22,10 +21,22 @@ enum TicketStatus {
 }
 
 model Ticket {
-  id    String    @id @default(auto()) @map("_id") @db.ObjectId
-  title String
-  creationDate String?
-  description   String?
-  status TicketStatus?
-  assignee  String?
+  id           String        @id @default(auto()) @map("_id") @db.ObjectId
+  title        String
+  creationDate DateTime?     @default(now())
+  description  String?
+  status       TicketStatus?  @default(TODO)
+  assignee     String?
+  Project      Project?      @relation(fields: [projectId], references: [id])
+  projectId    String?       @db.ObjectId
+}
+
+model Project {
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  creationDate DateTime? @default(now())
+  limitDate    DateTime? @default(now())
+  status       String?
+  manager      String?
+  tickets      Ticket[]
 }
