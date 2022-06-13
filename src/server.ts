@@ -1,8 +1,10 @@
 import mongoose from 'mongoose';
 import 'reflect-metadata';
 import { buildSchema } from 'type-graphql';
-import ProjectResolver from './resolvers/ProjectResolver';
-import TicketResolver from './resolvers/TicketResolver';
+import { PrismaClient } from '@prisma/client';
+import { resolvers } from '@generated/type-graphql';
+
+const prisma = new PrismaClient();
 
 const { ApolloServer } = require('apollo-server');
 
@@ -15,10 +17,11 @@ mongoose
 
 const initialize = async () => {
   const schema = await buildSchema({
-    resolvers: [TicketResolver, ProjectResolver],
+    resolvers,
+    validate: false,
   });
 
-  const server = new ApolloServer({ schema });
+  const server = new ApolloServer({ schema, context: () => ({ prisma }) });
 
   server.listen().then(({ url }: { url: any }) => {
     console.log(`🚀  Server ready at ${url}`); // eslint-disable-line no-console
