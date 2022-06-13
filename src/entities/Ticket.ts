@@ -37,7 +37,6 @@ export class Ticket {
   @Field()
   description?: string;
 
-
   @Property()
   @Field(() => TicketStatus)
   status?: TicketStatus;
@@ -45,7 +44,6 @@ export class Ticket {
   @Property()
   @Field()
   assignee?: string;
-
 }
 export const TicketModel = getModelForClass(Ticket);
 
@@ -72,7 +70,6 @@ export class TicketId implements Partial<Ticket> {
   readonly _id: ObjectId;
 }
 
-
 @InputType({ description: 'Update ticket data' })
 export class UpdateTicketInput implements Partial<Ticket> {
   @Field(() => ID!)
@@ -91,5 +88,4 @@ export class UpdateTicketInput implements Partial<Ticket> {
 
   @Field()
   assignee: string = '';
-
 }
