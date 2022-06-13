@@ -3,9 +3,6 @@ import 'reflect-metadata';
 import { buildSchema } from 'type-graphql';
 import { PrismaClient } from '@prisma/client';
 import { resolvers } from '@generated/type-graphql';
-import ProjectResolver from './resolvers/ProjectResolver';
-import TicketResolver from './resolvers/TicketResolver';
-import CustomTicketResolver from './resolvers/CustomResolver';
 
 const prisma = new PrismaClient();
 
