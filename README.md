@@ -1,26 +1,24 @@
 # 2203-wns-etchebest-console-log-back
 
-## Getting Started
+# GETTING STARTED
 
-Installation
 ## STEP 1 Installation
 ```bash
+# A. Clone
 git clone git@github.com:WildCodeSchool/2203-wns-etchebest-console-log-back.git
 # or
 https://github.com/WildCodeSchool/2203-wns-etchebest-console-log-back.git
-# then
+
+# B. Go to the cloned folder
 cd 2203-wns-etchebest-console-log-back
+
+# C. install dependencies
 npm install
 # or
 yarn
 
-# Make sure you generated the prisma CRUD models and resolvers with
+# D. Make sure you generated the prisma CRUD models and resolvers with
 npx prisma generate
-
-# Then, run the server locally :
-npm start
-# or
-yarn start
 ```
 
 ## STEP 2 CONFIGURATION (see below for Homebrew)
@@ -30,13 +28,14 @@ Start mongod (configured for replication) with the command below :
 
 ```bash
 mongod --port 27017 --dbpath /path/to/mongodb --replSet rs0 --bind_ip localhost,CustomHostName
-# keep this terminal open
+# (keep this terminal open)
 ```
 
+## OR
 ## STEP 2bis (if you're using a service like Homebrew)
 ```brew services stop mongodb-community@5.0```
-Then change mongod options for the homebrew service (/usr/local/etc/mongod.conf or /opt/homebrew/etc/mongod.conf)
-Add these lines at the end of the file :
+
+Then change mongod options for the homebrew service (add these 2 lines at the end of the file) :
 ```mongod.conf
 # /etc/mongod.conf (Linux)
 # /usr/local/etc/mongod.conf (MacOS Intel) or /opt/homebrew/etc/mongod.conf (MacOS M1)
@@ -56,8 +55,10 @@ While mongod is running, open a new terminal & run `mongosh`, then :
 rs.initiate({_id: 'rs0', members: [{_id: 0, host: 'localhost:27017'}]});
 ```
 
-## STEP 4 run the server
+## STEP 4 run the server locally
 ```
 #You might need to reproduce step 2 if you closed your mongod instance
 npm start
+# or
+yarn start
 ```
