@@ -30,4 +30,4 @@ const initialize = async () => {
   });
 };
 
-initialize().catch((error) => console.log(error));
+initialize().catch((error) => console.log(error)); // eslint-disable-line no-console
