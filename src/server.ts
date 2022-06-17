@@ -2,7 +2,6 @@ import 'reflect-metadata';
 import { buildSchema } from 'type-graphql';
 import { ApolloServer } from 'apollo-server';
 import { PrismaClient } from '@prisma/client';
-import 'dotenv/config';
 
 import { resolvers } from '@generated/type-graphql';
 
@@ -25,7 +24,9 @@ const initialize = async () => {
     schema,
     context: (): Context => ({ prisma }),
   });
-  server.listen().then(({ url }: { url: any }) => {
+  const port = 4000;
+
+  server.listen(port).then(({ url }: { url: any }) => {
     console.log(`🚀  Server ready at ${url}`); // eslint-disable-line no-console
   });
 };
