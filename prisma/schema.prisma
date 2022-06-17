@@ -1,0 +1,44 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator typegraphql {
+  provider = "typegraphql-prisma"
+}
+
+enum TicketStatus {
+  TODO
+  DOING
+  DONE
+}
+
+model Ticket {
+  id          Int           @id @default(autoincrement())
+  title       String        @db.VarChar(255)
+  createdAt   DateTime?     @default(now())
+  updatedAt   DateTime      @updatedAt
+  description String?
+  status      TicketStatus? @default(TODO)
+  closed      Boolean       @default(false)
+  assignee    String?
+  Project     Project?      @relation(fields: [projectId], references: [id])
+  projectId   Int?
+}
+
+model Project {
+  id        Int       @id @default(autoincrement())
+  name      String
+  createdAt DateTime? @default(now())
+  limitDate DateTime? @default(now())
+  status    String?
+  manager   String?
+  tickets   Ticket[]
+}
