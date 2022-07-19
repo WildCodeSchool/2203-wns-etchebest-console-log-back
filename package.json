@@ -12,6 +12,9 @@
     "prepare": "husky install",
     "start:migrate:dev": "npx prisma migrate resolve --applied 20220719094443_init && npx prisma migrate deploy && ts-node-dev src/server.ts"
   },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
