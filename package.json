@@ -12,6 +12,9 @@
     "prepare": "husky install",
     "start:migrate:dev": "npx prisma migrate dev && ts-node-dev src/server.ts"
   },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {

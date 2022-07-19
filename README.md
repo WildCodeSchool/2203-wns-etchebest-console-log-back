@@ -3,6 +3,7 @@
 # GETTING STARTED
 
 ## STEP 1 Installation
+
 ```bash
 # A. Clone
 git clone git@github.com:WildCodeSchool/2203-wns-etchebest-console-log-back.git
@@ -24,6 +25,7 @@ npx prisma generate
 ```
 
 ## STEP 2 Create a local postgresql database if not existing
+
 in `psql` :
 
 ```bash
@@ -33,15 +35,23 @@ CREATE DATABASE consolelogdb;
 ```
 
 ## STEP 3 Initialize your database according to prisma schema
+
 ```bash
 npx prisma db push
 ```
+
 Later in the project, after this first initialization,
 we will use the `npx prisma migrate dev` tool
 
 ## STEP 4 run the server locally
+
 ```
 npm start
 # or
 yarn start
 ```
+
+### RUN SEED SCRIPT
+
+- Open docker `front_back` terminal
+- Run `npx prisma db seed`
