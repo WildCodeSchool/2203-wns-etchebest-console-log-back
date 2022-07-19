@@ -10,4 +10,4 @@ COPY tsconfig.json tsconfig.json
 RUN npx prisma generate
 EXPOSE 4000
 
-CMD npm start
+CMD [ "npm", "run", "start:migrate:dev" ]
