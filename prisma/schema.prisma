@@ -20,6 +20,15 @@ enum TicketStatus {
   DONE
 }
 
+model User {
+  id        Int       @id @default(autoincrement())
+  name      String
+  createdAt DateTime? @default(now())
+  hash      String
+  email     String
+  Ticket    Ticket[]
+}
+
 model Ticket {
   id          Int           @id @default(autoincrement())
   title       String        @db.VarChar(255)
@@ -28,9 +37,10 @@ model Ticket {
   description String?
   status      TicketStatus? @default(TODO)
   closed      Boolean       @default(false)
-  assignee    String?
+  assignee    User?         @relation(fields: [userId], references: [id])
   Project     Project?      @relation(fields: [projectId], references: [id])
   projectId   Int?
+  userId      Int?
 }
 
 model Project {
