@@ -1,18 +1,20 @@
 import 'reflect-metadata';
-import { buildSchema } from 'type-graphql';
+import { buildSchema, NonEmptyArray } from 'type-graphql';
 import { ApolloServer } from 'apollo-server';
 import { PrismaClient } from '@prisma/client';
 import { resolvers } from '@generated/type-graphql';
+// eslint-disable-next-line import/no-cycle
+import CustomUserResolver from './resolvers/User';
 
 // const prisma = new PrismaClient();
 
-interface Context {
+export interface Context {
   prisma: PrismaClient;
 }
 
 const initialize = async () => {
   const schema = await buildSchema({
-    resolvers,
+    resolvers: [...resolvers, CustomUserResolver] as NonEmptyArray<any>,
     validate: false,
   });
 
