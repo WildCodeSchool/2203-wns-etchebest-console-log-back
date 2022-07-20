@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 const user = {
   name: 'Jane Doe',
-  hash: bcrypt.hashSync("p4ssw0rd", 10),
+  hash: bcrypt.hashSync('p4ssw0rd', 10),
   email: 'email@email.fr',
 };
 
