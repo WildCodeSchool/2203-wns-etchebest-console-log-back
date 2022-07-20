@@ -1,7 +1,7 @@
 import 'reflect-metadata';
-import { buildSchema, NonEmptyArray } from 'type-graphql';
-import { ApolloServer } from 'apollo-server';
 import { PrismaClient } from '@prisma/client';
+import { ApolloServer } from 'apollo-server';
+import { buildSchema, NonEmptyArray } from 'type-graphql';
 import { resolvers } from '@generated/type-graphql';
 // eslint-disable-next-line import/no-cycle
 import { CustomUserResolver, LoginResolver } from './resolvers/User';
