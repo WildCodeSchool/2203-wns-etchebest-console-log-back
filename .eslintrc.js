@@ -16,5 +16,5 @@ module.exports = {
     'no-underscore-dangle': ['error', { allow: ['_id'] }],
     'class-methods-use-this': 'off',
   },
-  ignorePatterns: ['.eslintrc.js'],
+  ignorePatterns: ['.eslintrc.js', 'prisma/seed.ts'],
 };
