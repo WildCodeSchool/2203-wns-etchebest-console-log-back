@@ -32,17 +32,15 @@ class CustomUserResolver {
 
 @Resolver()
 class LoginResolver {
-  @Query()
+  @Query(() => String)
   async login(
     @Arg('UserLoginInput') args: UserLoginInput,
     @Ctx() { prisma }: Context
   ) {
     const { email, password } = args;
-    console.log(email, password);
     const foundUser = await prisma.user.findFirst({
       where: { email },
     });
-    console.log(foundUser);
     if (foundUser && bcrypt.compareSync(password, foundUser.hash)) {
       const token = jwt.sign(
         {
@@ -50,10 +48,8 @@ class LoginResolver {
         },
         jwtKey
       );
-      console.log(token);
       return token;
     }
-
     return new ApolloError('User not found');
   }
 }
