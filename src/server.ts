@@ -9,7 +9,12 @@ import {
 } from '@generated/type-graphql';
 import jwt from 'jsonwebtoken';
 // eslint-disable-next-line import/no-cycle
-import { CustomUserResolver, jwtKey, LoginResolver } from './resolvers/User';
+import {
+  CustomUserResolver,
+  jwtKey,
+  LoginResolver,
+  RegisterResolver,
+} from './resolvers/User';
 // eslint-disable-next-line import/no-cycle
 import customAuthChecker from './auth';
 // import resolversEnhanceMap from './resolvers/enhanceMap';
@@ -32,6 +37,7 @@ const initialize = async () => {
       resolversEnhanceMap,
       CustomUserResolver,
       LoginResolver,
+      RegisterResolver,
     ] as NonEmptyArray<any>,
     validate: false,
     authChecker: customAuthChecker,
