@@ -23,7 +23,19 @@ class UserLoginInput implements Partial<User> {
   @Field()
   email: string;
 
-  @Field({ nullable: true })
+  @Field()
+  password: string;
+}
+
+@InputType({ description: 'register input' })
+class UserRegisterInput implements Partial<User> {
+  @Field()
+  email: string;
+
+  @Field()
+  name: string;
+
+  @Field()
   password: string;
 }
 
@@ -63,4 +75,30 @@ class LoginResolver {
   }
 }
 
-export { CustomUserResolver, LoginResolver };
+@Resolver()
+class RegisterResolver {
+  @Query(() => User)
+  async register(
+    @Arg('UserRegisterInput') args: UserRegisterInput,
+    @Ctx() { prisma }: Context
+  ) {
+    const { email, name, password } = args;
+    const foundUser = await prisma.user.findFirst({
+      where: { email },
+    });
+    if (foundUser) {
+      return new ApolloError('User already exists');
+    }
+    const hash = bcrypt.hashSync(password, 10);
+    const newUser = await prisma.user.create({
+      data: {
+        email,
+        name,
+        hash,
+      },
+    });
+    return newUser;
+  }
+}
+
+export { CustomUserResolver, LoginResolver, RegisterResolver };
