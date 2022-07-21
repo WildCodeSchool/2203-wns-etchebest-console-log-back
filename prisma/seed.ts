@@ -15,7 +15,6 @@ const ticket = {
 
 const project = {
   name: 'Projet 1',
-  status: 'NOT STARTED',
 };
 
 const load = async () => {
