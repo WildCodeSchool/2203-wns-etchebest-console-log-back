@@ -1,5 +1,13 @@
 /* eslint-disable max-classes-per-file */
-import { Query, Resolver, Ctx, Arg, InputType, Field } from 'type-graphql';
+import {
+  Query,
+  Resolver,
+  Ctx,
+  Arg,
+  InputType,
+  Field,
+  Authorized,
+} from 'type-graphql';
 import { ApolloError } from 'apollo-server';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
@@ -21,6 +29,7 @@ class UserLoginInput implements Partial<User> {
 
 @Resolver(() => User)
 class CustomUserResolver {
+  @Authorized()
   @Query(() => User, { nullable: true })
   async bestUser(@Ctx() { prisma }: Context) {
     const user = await prisma.user.findFirst({
