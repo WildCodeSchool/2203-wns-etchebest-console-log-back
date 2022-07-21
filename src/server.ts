@@ -10,10 +10,10 @@ import {
 import jwt from 'jsonwebtoken';
 // eslint-disable-next-line import/no-cycle
 import { CustomUserResolver, jwtKey, LoginResolver } from './resolvers/User';
+// eslint-disable-next-line import/no-cycle
 import customAuthChecker from './auth';
 // import resolversEnhanceMap from './resolvers/enhanceMap';
 
-// const prisma = new PrismaClient();
 export interface Context {
   prisma: PrismaClient;
   user?: User;
