@@ -1,11 +1,17 @@
 import 'reflect-metadata';
 import { PrismaClient, User } from '@prisma/client';
 import { ApolloServer } from 'apollo-server';
-import { buildSchema, NonEmptyArray } from 'type-graphql';
-import { resolvers } from '@generated/type-graphql';
+import { buildSchema, NonEmptyArray, Authorized } from 'type-graphql';
+import {
+  resolvers,
+  ResolversEnhanceMap,
+  applyResolversEnhanceMap,
+} from '@generated/type-graphql';
 import jwt from 'jsonwebtoken';
 // eslint-disable-next-line import/no-cycle
 import { CustomUserResolver, jwtKey, LoginResolver } from './resolvers/User';
+import customAuthChecker from './auth';
+// import resolversEnhanceMap from './resolvers/enhanceMap';
 
 // const prisma = new PrismaClient();
 export interface Context {
@@ -14,13 +20,21 @@ export interface Context {
 }
 
 const initialize = async () => {
+  const resolversEnhanceMap: ResolversEnhanceMap = {
+    Project: {
+      createOneProject: [Authorized()],
+    },
+  };
+  applyResolversEnhanceMap(resolversEnhanceMap);
   const schema = await buildSchema({
     resolvers: [
       ...resolvers,
+      resolversEnhanceMap,
       CustomUserResolver,
       LoginResolver,
     ] as NonEmptyArray<any>,
     validate: false,
+    authChecker: customAuthChecker,
   });
 
   const prisma = new PrismaClient();
