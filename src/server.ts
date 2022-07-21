@@ -1,15 +1,16 @@
 import 'reflect-metadata';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, User } from '@prisma/client';
 import { ApolloServer } from 'apollo-server';
 import { buildSchema, NonEmptyArray } from 'type-graphql';
 import { resolvers } from '@generated/type-graphql';
+import jwt from 'jsonwebtoken';
 // eslint-disable-next-line import/no-cycle
-import { CustomUserResolver, LoginResolver } from './resolvers/User';
+import { CustomUserResolver, jwtKey, LoginResolver } from './resolvers/User';
 
 // const prisma = new PrismaClient();
-
 export interface Context {
   prisma: PrismaClient;
+  user?: User;
 }
 
 const initialize = async () => {
@@ -27,7 +28,18 @@ const initialize = async () => {
 
   const server = new ApolloServer({
     schema,
-    context: (): Context => ({ prisma }),
+    context: ({ req }) => {
+      const token = req.headers.authorization;
+      if (token) {
+        try {
+          const user = jwt.verify(token, jwtKey);
+          return { user, prisma };
+        } catch (e) {
+          console.error(e); // eslint-disable-line no-console
+        }
+      }
+      return { prisma };
+    },
   });
   const port = 4000;
 

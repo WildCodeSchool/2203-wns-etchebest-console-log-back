@@ -7,7 +7,7 @@ import bcrypt from 'bcrypt';
 import { Context } from '../server';
 import { User } from '../../node_modules/@generated/type-graphql';
 
-const jwtKey =
+export const jwtKey =
   'superlongString_because_console_log_are_the_best_way_to_debug_this_project';
 
 @InputType({ description: 'login input' })
